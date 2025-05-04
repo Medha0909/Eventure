@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../styles/forseeker.css";
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import PhoneInput from "react-phone-number-input";
@@ -11,6 +11,8 @@ export default function Participant() {
   let navigate = useNavigate();
 
   const [name, setName] = useState("");
+  const [eventTitle, setEventTitle] = useState("");
+  const [payment, setPayment] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneno, setPhoneno] = useState();
   const [responseId, setResponseId] = useState("");
@@ -109,8 +111,61 @@ export default function Participant() {
       .catch((error) => {
         console.log("error occures", error);
       });
-  };
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+   
 
+    if(payment=== false)
+    {
+      alert("Pay registration amount of an event to proceed with a registration");
+    }
+    else if(payment === true){
+    try {
+      const response = await fetch(
+        "http://localhost:8080/participant",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            eventTitle,
+            name,
+            email,
+            phoneno,
+            payment
+          }),
+        }
+      );
+
+      //const contentType = response.headers.get("content-type");
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server Error: ${errorText}`);
+      }
+      //if (contentType && contentType.includes("application/json")) {
+      //  const json = await response.json();
+      //console.log("Success:", json);
+      //alert("Event scheduled successfully!");
+      //}
+      else {
+        const text = await response.text();
+        console.log("Non-JSON response:", text);
+        alert("you have successfully registered yourself for an event.");
+        navigate("/")
+      }
+    } catch (error) {
+      console.error("Error occurred:", error.message);
+      alert("An error occurred while submitting the event.");
+    }
+  }
+  };
+  useEffect(() => {
+    setEventTitle(localStorage.getItem("title"));
+    
+    }, []);
   return (
     <div className="l-form">
       <div className="shape1" />
@@ -121,7 +176,7 @@ export default function Participant() {
           alt="image"
           className="form-img"
         />
-        <form className="form-content">
+        <form className="form-content" onSubmit={handleSubmit}>
           <h1>{localStorage.getItem("title")}</h1>
           <h1 className="form-title">
             <span>Register here !!!</span>
@@ -203,11 +258,14 @@ export default function Participant() {
 
           <button
             type="button"
-            onClick={() => createRazorpayOrder(localStorage.getItem("fees"))}
+            onClick={() => {createRazorpayOrder(localStorage.getItem("fees"))
+              if(responseId !== null ){ setPayment(true)}   
+            }}
             style={{ background: "#00493A" }}
             className="form-button"           >
             pay
           </button>
+  
           <input type="submit" value="Submit" className="form-button" />
 
           <div className="form-social">
@@ -221,23 +279,11 @@ export default function Participant() {
               <i className="bx bxl-instagram" />
             </a>
           </div>
+
         </form>
       </div>
-      {responseId && <p>{responseId}</p>}
-      <form style={{ display: "none" }} onSubmit={paymentFetch}>
-        <div>
-          <input type="text" name="paymentId" />
-          <button type="submit">Fetch Payment</button>
-          {responseState.length !== 0 && (
-            <ul>
-              <li>Amount: {responseState.amount / 100} Rs.</li>
-              <li>Currency: {responseState.currency}</li>
-              <li>Status: {responseState.status}</li>
-              <li>Method: {responseState.method}</li>
-            </ul>
-          )}
-        </div>
-      </form>
+      
+     
     </div>
   );
 }
