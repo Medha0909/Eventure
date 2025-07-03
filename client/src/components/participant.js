@@ -123,7 +123,7 @@ export default function Participant() {
     else if(payment === true){
     try {
       const response = await fetch(
-        "http://localhost:8080/participant",
+        "https://eventure-nozw.onrender.com/participant",
         {
           method: "POST",
           headers: {
