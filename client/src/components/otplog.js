@@ -16,7 +16,7 @@ export default function OTP() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = window.sessionStorage.getItem("email");
-    const response = await fetch("http://localhost:8080/otproutes/verify", {
+    const response = await fetch("https://eventure-nozw.onrender.com/otproutes/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
