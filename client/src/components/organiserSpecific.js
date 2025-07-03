@@ -20,7 +20,7 @@ export default function OrganiserSpecific() {
 
   function fetchEvents() {
     const uid = localStorage.getItem("uniqueId");
-    fetch(`http://localhost:8080/eventroute/getevent/${uid}`)
+    fetch(`https://eventure-nozw.onrender.com/eventroute/getevent/${uid}`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -37,7 +37,7 @@ export default function OrganiserSpecific() {
   }
 
   function deleteEvent(id) {
-    fetch(`http://localhost:8080/eventroute/delete/${id}`, {
+    fetch(`https://eventure-nozw.onrender.com/eventroute/delete/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -51,7 +51,7 @@ export default function OrganiserSpecific() {
   }
 
   function updateEvent(id) {
-    fetch(`http://localhost:8080/eventroute/update/${id}`, {
+    fetch(`https://eventure-nozw.onrender.com/eventroute/update/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
