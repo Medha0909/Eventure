@@ -9,7 +9,7 @@ export default function ParticipantList() {
   }, []);
 
   function fetchEvents() {
-    fetch(`http://localhost:8080/getparticipant/${title}`, {
+    fetch(`https://eventure-nozw.onrender.com/getparticipant/${title}`, {
       method: "GET",
     })
       .then((res) => res.json())
