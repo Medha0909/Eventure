@@ -58,7 +58,7 @@ export default function Organiser() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/eventroute/eventroute",
+        "https://eventure-nozw.onrender.com/eventroute/eventroute",
         {
           method: "POST",
           headers: {
