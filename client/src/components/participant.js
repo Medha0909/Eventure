@@ -44,7 +44,7 @@ export default function Participant() {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:8080/payment/orders",
+      url: "https://eventure-nozw.onrender.com/payment/orders",
       headers: {
         "Content-Type": "application/json",
       },
