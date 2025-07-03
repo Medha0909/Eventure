@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import "rsuite/dist/rsuite.css";
+
+/* Main Background Section */
+.back {
+    background: linear-gradient(to top, #0fe0d5 0%, #fed6e3 100%);
+    height: 100px;
+}
+
+/* Clock Icon Positioning */
+.clocks {
+    position: absolute;
+    margin-left: -14px;
+    margin-top: 3px;
+}
+
+/* Middle Grey Box */
+.ck {
+    position: absolute;
+    top: 22px;
+    left: 415px;
+    width: 200px;
+    border-radius: 10px;
+    background-color: #d8d6d6;
+    text-align: center;
+}
+
+/* Second Grey Box */
+.clocks1 {
+    position: absolute;
+    left: 14px;
+    margin-top: 3px;
+}
+
+.ck1 {
+    position: absolute;
+    top: 22px;
+    left: 760px;
+    width: 250px;
+    border-radius: 10px;
+    background-color: #d8d6d6;
+    text-align: center;
+}
+
+/* Footer */
+.ft {
+    height: 250px;
+}
+
+/* Button Colors */
+.bu {
+    background-color: #022A55;
+}
+
+.tst {
+    background-color: #3191DD;
+
+}
+.tst1 {
+    background-color:white;
+    color:black;
+    width: 30px; 
+    margin-left: 10px;   
+}
+.tst1:hover{
+    background-color: red;
+    color: white;
+}
+.tst2{
+    background-color:white;
+    color:black;
+    width: 30px; 
+    margin-left: 320px; 
+    
+}
+.tst2:hover{
+    background-color:#3191DD;
+    color: white;
+
+}
+.tst4 {
+    
+   color: black;
+    width: 30px;
+    height: 30px; 
+    margin-left: 40px;   
+}
+.tst4:hover{
+    background-color:red;
+    color: white;
+
+}
+
+
+/* Responsive Changes */
+@media (max-width: 1024px) {
+    .ck {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 140px;
+        width: 80%;
+    }
+
+    .ck1 {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 240px;
+        width: 80%;
+    }
+
+    .ft {
+        height: auto;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .ck,
+    .ck1 {
+        position: static;
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .ft {
+        height: auto;
+    }
+
+    .box {
+        width: 100%;
+        font-size: large;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ck,
+    .ck1 {
+        width: 95%;
+        font-size: 14px;
+    }
+
+    .box {
+        width: 100%;
+        font-size: medium;
+    }
+}
+
