@@ -16,7 +16,7 @@ export default function Register() {
       localStorage.setItem("uniqueId",credentials.password);
       window.sessionStorage.setItem("email",credentials.email);
       const {email,password} = credentials;
-      const response = await fetch("http://localhost:8080/reg/createuser",{
+      const response = await fetch("https://eventure-nozw.onrender.com/reg/createuser",{
       method:'POST',
         headers:{
           'Content-Type': 'application/json'
