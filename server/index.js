@@ -5,11 +5,7 @@ const app = express();
 const cors = require("cors");
 app.use(express.json());
 app.use(
-  cors({
-    origin: "http://localhost:3000", // Allow your React frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
+  cors()
 );
 const connecttomongo = require("./models/db");
 
