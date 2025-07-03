@@ -14,7 +14,7 @@ export default function Events() {
   }, []);
 
   function fetchEvents() {
-    fetch("http://localhost:8080/eventroute/getapi", {
+    fetch("https://eventure-nozw.onrender.com/eventroute/getapi", {
       method: "GET",
     })
       .then((res) => res.json())
