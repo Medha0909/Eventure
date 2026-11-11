@@ -1,21 +1,19 @@
-import * as React from "react";
+
+import { useState, useEffect } from "react";
 import "react-phone-number-input/style.css";
 import "../styles/participant.css";
-import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-number-input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Participant() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [eventTitle, setEventTitle] = useState("");
   const [payment, setPayment] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneno, setPhoneno] = useState();
-  const [responseId, setResponseId] = useState("");
-  const [responseState, setResponseState] = useState([]);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -23,24 +21,20 @@ export default function Participant() {
 
       script.src = src;
 
-      script.onload = () => {
-        resolve(true);
-      };
-      script.onerror = () => {
-        resolve(false);
-      };
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
 
       document.body.appendChild(script);
     });
   };
 
   const createRazorpayOrder = (amount) => {
-    let data = JSON.stringify({
+    const data = JSON.stringify({
       amount: amount * 100,
       currency: "INR",
     });
 
-    let config = {
+    const config = {
       method: "post",
       maxBodyLength: Infinity,
       url: "https://eventure-nozw.onrender.com/payment/orders",
@@ -58,6 +52,7 @@ export default function Participant() {
       })
       .catch((error) => {
         console.log("error at", error);
+        alert("Unable to create payment order. Please try again.");
       });
   };
 
@@ -77,14 +72,19 @@ export default function Participant() {
       currency: "INR",
       name: "Eventure",
       description: "payment to papaya coders",
-      img: "https://papayacoders.com/demo.png",
+      image: "https://papayacoders.com/demo.png",
+
       handler: function (response) {
-        setResponseId(response.razorpay_payment_id);
+        console.log("Payment successful:", response);
+        setPayment(true);
+        alert("Payment successful!");
       },
+
       prefill: {
         name: "S-TELL",
         email: "stellmaghu@gmail.com",
       },
+
       theme: {
         color: "#F4C430",
       },
@@ -94,32 +94,16 @@ export default function Participant() {
     paymentObject.open();
   };
 
-  const paymentFetch = (e) => {
-    e.preventDefault();
-
-    const paymentId = e.target.paymentId.value;
-
-    axios
-      .get(
-        `https://e-commerce-server-omav.onrender.com/payment/payment/${paymentId}`
-      )
-      .then((response) => {
-        console.log(response.data);
-        setResponseState(response.data);
-      })
-      .catch((error) => {
-        console.log("error occures", error);
-      });
-  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    if(payment=== false)
-    {
-      alert("Pay registration amount of an event to proceed with a registration");
+    if (payment === false) {
+      alert(
+        "Pay registration amount of an event to proceed with a registration"
+      );
+      return;
     }
-    else if(payment === true){
+
     try {
       const response = await fetch(
         "https://eventure-nozw.onrender.com/participant",
@@ -133,42 +117,42 @@ export default function Participant() {
             name,
             email,
             phoneno,
-            payment
+            payment,
           }),
         }
       );
-
-      //const contentType = response.headers.get("content-type");
 
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Server Error: ${errorText}`);
       }
-      //if (contentType && contentType.includes("application/json")) {
-      //  const json = await response.json();
-      //console.log("Success:", json);
-      //alert("Event scheduled successfully!");
-      //}
-      else {
-        const text = await response.text();
-        console.log("Non-JSON response:", text);
-        alert("you have successfully registered yourself for an event.");
-        navigate("/")
-      }
+
+      const text = await response.text();
+
+      console.log("Registration response:", text);
+
+      alert("You have successfully registered yourself for an event.");
+      navigate("/");
     } catch (error) {
       console.error("Error occurred:", error.message);
       alert("An error occurred while submitting the event.");
     }
-  }
   };
+
   useEffect(() => {
     setEventTitle(localStorage.getItem("title"));
+  }, []);
 
-    }, []);
   return (
     <div className="ev-participant">
-      <span className="ev-participant__glow ev-participant__glow--a" aria-hidden="true" />
-      <span className="ev-participant__glow ev-participant__glow--b" aria-hidden="true" />
+      <span
+        className="ev-participant__glow ev-participant__glow--a"
+        aria-hidden="true"
+      />
+      <span
+        className="ev-participant__glow ev-participant__glow--b"
+        aria-hidden="true"
+      />
 
       <div className="ev-participant__card">
         <aside className="ev-participant__aside">
@@ -190,19 +174,30 @@ export default function Participant() {
 
         <section className="ev-participant__main">
           <header className="ev-participant__header">
-            <h2 className="ev-participant__heading">Register here</h2>
+            <h2 className="ev-participant__heading">
+              Register here
+            </h2>
+
             <p className="ev-participant__sub">
               Fill in your details to join this event
             </p>
           </header>
 
-          <form className="ev-participant__form" onSubmit={handleSubmit}>
+          <form
+            className="ev-participant__form"
+            onSubmit={handleSubmit}
+          >
             <div className="ev-participant__field">
               <span className="ev-participant__index">01</span>
+
               <div className="ev-participant__field-body">
-                <label className="ev-participant__label" htmlFor="participant-name">
+                <label
+                  className="ev-participant__label"
+                  htmlFor="participant-name"
+                >
                   Name
                 </label>
+
                 <input
                   id="participant-name"
                   className="ev-participant__input"
@@ -216,10 +211,15 @@ export default function Participant() {
 
             <div className="ev-participant__field">
               <span className="ev-participant__index">02</span>
+
               <div className="ev-participant__field-body">
-                <label className="ev-participant__label" htmlFor="participant-email">
+                <label
+                  className="ev-participant__label"
+                  htmlFor="participant-email"
+                >
                   Email
                 </label>
+
                 <input
                   id="participant-email"
                   className="ev-participant__input"
@@ -234,10 +234,15 @@ export default function Participant() {
 
             <div className="ev-participant__field">
               <span className="ev-participant__index">03</span>
+
               <div className="ev-participant__field-body">
-                <label className="ev-participant__label" htmlFor="participant-phone">
+                <label
+                  className="ev-participant__label"
+                  htmlFor="participant-phone"
+                >
                   Phone number
                 </label>
+
                 <PhoneInput
                   id="participant-phone"
                   className="ev-participant__phone"
@@ -253,10 +258,10 @@ export default function Participant() {
                 type="button"
                 className="ev-participant__pay"
                 onClick={() => {
-                  createRazorpayOrder(localStorage.getItem("fees"));
-                  if (responseId !== null) {
-                    setPayment(true);
-                  }
+                  setPayment(false);
+                  createRazorpayOrder(
+                    localStorage.getItem("fees")
+                  );
                 }}
               >
                 Pay fee
