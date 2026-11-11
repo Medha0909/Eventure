@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { InputOtp } from "primereact/inputotp";
 import { useNavigate } from "react-router-dom";
 import "../styles/otplogin.css";
-import { Link } from "react-router-dom";
 import { ShieldCheck } from "lucide-react";
 
 export default function OTP() {
@@ -18,7 +17,6 @@ export default function OTP() {
   );
   const [otp, setOtp] = useState("");
 
-  const [credentials, setCredentials] = useState({ email: "" });
   //let navigate=useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,9 +39,6 @@ export default function OTP() {
     } else {
       alert("Invalid OTP");
     }
-  };
-  const onChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
   return (
