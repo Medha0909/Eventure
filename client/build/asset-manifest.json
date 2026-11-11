@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1071a105.css",
+    "main.js": "/static/js/main.7cea8ac1.js",
+    "static/js/885.65a1e923.chunk.js": "/static/js/885.65a1e923.chunk.js",
+    "static/media/keyboard-32-12.mp3": "/static/media/keyboard-32-12.91f1fecd8f88b0eac1da.mp3",
+    "index.html": "/index.html",
+    "main.1071a105.css.map": "/static/css/main.1071a105.css.map",
+    "main.7cea8ac1.js.map": "/static/js/main.7cea8ac1.js.map",
+    "885.65a1e923.chunk.js.map": "/static/js/885.65a1e923.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1071a105.css",
+    "static/js/main.7cea8ac1.js"
+  ]
+}
