@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useState, useCallback } from "react";
 import "../styles/participantList.css";
 
 export default function ParticipantList() {
   const [participants, setParticipants] = useState([]);
   const title = localStorage.getItem("title1");
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-
-  function fetchEvents() {
-    fetch(`https://eventure-nozw.onrender.com/getparticipant/${title}`, {
-      method: "GET",
-    })
+  const fetchEvents = useCallback(() => {
+    fetch(
+      `https://eventure-nozw.onrender.com/getparticipant/${title}`,
+      {
+        method: "GET",
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -26,7 +26,11 @@ export default function ParticipantList() {
         console.error("Error fetching events:", err);
         setParticipants([]);
       });
-  }
+  }, [title]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
   const getInitials = (name) =>
     (name || "")
@@ -47,17 +51,23 @@ export default function ParticipantList() {
               <span className="ev-roster__eyebrow-dot" />
               Event roster
             </span>
+
             <h2 className="ev-roster__title">
               Participants for: <span>{title}</span>
             </h2>
+
             <p className="ev-roster__sub">
               Everyone who secured a spot at your event, in order of arrival.
             </p>
           </div>
 
           <span className="ev-roster__count">
-            <span className="ev-roster__count-value">{participants.length}</span>
-            <span className="ev-roster__count-label">Enrolled</span>
+            <span className="ev-roster__count-value">
+              {participants.length}
+            </span>
+            <span className="ev-roster__count-label">
+              Enrolled
+            </span>
           </span>
         </header>
 
@@ -71,6 +81,7 @@ export default function ParticipantList() {
                 <th>Phone Number</th>
               </tr>
             </thead>
+
             <tbody>
               {participants.length === 0 ? (
                 <tr className="ev-roster__empty-row">
@@ -87,15 +98,21 @@ export default function ParticipantList() {
                     <td className="ev-roster__cell--index">
                       {String(index + 1).padStart(2, "0")}
                     </td>
+
                     <td className="ev-roster__cell--person">
                       <span className="ev-roster__avatar">
                         {getInitials(participant.name)}
                       </span>
-                      <span className="ev-roster__name">{participant.name}</span>
+
+                      <span className="ev-roster__name">
+                        {participant.name}
+                      </span>
                     </td>
+
                     <td className="ev-roster__cell--email">
                       {participant.email}
                     </td>
+
                     <td className="ev-roster__cell--phone">
                       {participant.phoneNumber}
                     </td>
